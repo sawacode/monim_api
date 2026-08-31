@@ -1,0 +1,18 @@
+GET https://api2.mypiole.com/api/v1.0/all/pubs
+Content-Type: application/json
+key: visKlwdh15dh459djd0dpIS
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyNiwidXNlckVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwidXNlclBob25lIjoiMjI1OTU2NTI1NTY2NiIsInJvbGUiOiJhZ2VuY2UiLCJpYXQiOjE3NjIyMTI2MzcsImV4cCI6MjA3MzI1MjYzN30.8WrgRkU09SLWjBrOYB8PphUgQDRwYgPEX5iOG1eJ9pA
+
+###
+
+POST http://127.0.0.1:8188/api/v1.0/realestates/country/null/limit/3
+Content-Type: application/json
+key: visKlwdh15dh459djd0dpIS
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyNiwidXNlckVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwidXNlclBob25lIjoiMjI1OTU2NTI1NTY2NiIsInJvbGUiOiJhZ2VuY2UiLCJpYXQiOjE3NjIyMTI2MzcsImV4cCI6MjA3MzI1MjYzN30.8WrgRkU09SLWjBrOYB8PphUgQDRwYgPEX5iOG1eJ9pA
+
+
+###
+POST http://127.0.0.1:8188/api/v1.0/realestates/type/2/country/null/limit/20
+Content-Type: application/json
+key: visKlwdh15dh459djd0dpIS
+Authorization: 

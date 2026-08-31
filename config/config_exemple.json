@@ -1,0 +1,72 @@
+{
+  "development": {
+
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "127.0.0.1",
+    "dialect": "",
+    "base_url": "",
+   
+    "service_mail": "smtp",
+    "host_mail": "127.0.0.1",
+    "port_mail": 1025,
+    "secure_mail": false,
+    "user_mail": "",
+    "password_mail": "",
+    "from_mail": "",
+    "admin_mail": "",
+
+    "sms_token": "",
+    "sms_from":  "",
+    "sms_api": ""
+
+  },
+  
+  "test": {
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "127.0.0.1",
+    "dialect": "",
+    "base_url": "",
+   
+    "service_mail": "smtp",
+    "host_mail": "127.0.0.1",
+    "port_mail": 1025,
+    "secure_mail": false,
+    "user_mail": "",
+    "password_mail": "",
+    "from_mail": "",
+    "admin_mail": "",
+
+    "sms_token": "",
+    "sms_from":  "",
+    "sms_api": ""
+
+  },
+
+  "production": {
+
+    "username": "",
+    "password": "",
+    "database": "",
+    "host": "",
+    "dialect": "",
+    "base_url": "",
+    
+    "service_mail": "smtp",
+    "host_mail": "127.0.0.1",
+    "port_mail": 587,
+    "secure_mail": false,
+    "user_mail": "",
+    "password_mail": "",
+    "from_mail": "",
+    "admin_mail": "",
+
+    "sms_token": "",
+    "sms_from":  "",
+    "sms_api": ""
+    
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "monimapi",
+  "version": "1.0.0",
+  "description": "Api du projet colibri",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://Yapoanage@bitbucket.org/informatservice/colibriapi.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit ",
+    "start": "nodemon server.js"
+  },
+  "author": "informatservice",
+  "license": "ISC",
+  "dependencies": {
+    "@sequelize/mariadb": "^7.0.0-alpha.41",
+    "async": "^3.2.4",
+    "axios": "^1.8.4",
+    "bcrypt": "^6.0.0",
+    "debug": "^4.4.1",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mariadb": "^3.2.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^8.0.1",
+    "sequelize": "^6.32.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
