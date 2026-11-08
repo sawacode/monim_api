@@ -5,14 +5,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyNiwid
 
 ###
 
-POST http://127.0.0.1:8188/api/v1.0/realestates/country/null/limit/3
+POST http://127.0.0.1:8188/api/v1.0/user/login HTTP/1.1
 Content-Type: application/json
 key: visKlwdh15dh459djd0dpIS
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyNiwidXNlckVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwidXNlclBob25lIjoiMjI1OTU2NTI1NTY2NiIsInJvbGUiOiJhZ2VuY2UiLCJpYXQiOjE3NjIyMTI2MzcsImV4cCI6MjA3MzI1MjYzN30.8WrgRkU09SLWjBrOYB8PphUgQDRwYgPEX5iOG1eJ9pA
 
+{
+    "identifier": "adou2@gmail.com",
+    "password": "azerty68"
+}
 
 ###
-POST http://127.0.0.1:8188/api/v1.0/realestates/type/2/country/null/limit/20
+POST http://127.0.0.1:8188/api/v1.0/get/delete/account HTTP/1.1
 Content-Type: application/json
 key: visKlwdh15dh459djd0dpIS
-Authorization: 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcyLCJ1c2VyRW1haWwiOiJhZG91MkBnbWFpbC5jb20iLCJ1c2VyUGhvbmUiOiIyMjUwNTc2MTkzMzQ2Iiwicm9sZSI6ImFnZW5jZSIsImlhdCI6MTc5NDA4OTQwMywiZXhwIjoyMTA1MTI5NDAzfQ.lNxoM0QZQdQSjVGfnwVzuokRERTnKfwNzkSHFU55qh0

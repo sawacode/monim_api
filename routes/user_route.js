@@ -3,6 +3,7 @@ const userController = require('../controllers/userController');
 const sendMailController = require('../controllers/sendMailController');
 const sendSMSController = require('../controllers/sendSMSController');
 const notificationController = require('../controllers/notificationController');
+const deleteAccountController = require('../controllers/deleteAccountController');
 const auth = require('../http/middleware/auth');
 const upload = require('../utils/upload');//Uploader des medias
 
@@ -37,6 +38,9 @@ userRoute.route("/send/tel/code").post(sendSMSController.sendCodeConfirm);
 //Vérification du mail
 userRoute.route("/verify/email").post(sendMailController.verifyCode);
 
-
+//Demande de suppression de compte
+userRoute.route('/delete/account').post(auth, deleteAccountController.create);
+//Vérifier la demande
+userRoute.route('/get/delete/account').post(auth, deleteAccountController.getAsk);
 
 module.exports = userRoute;

@@ -574,7 +574,7 @@ module.exports = {
             }).catch((error) => {
               return res.json({
                 status: 500,
-                error: "2" + error
+                error: "" + error
               })
             });
           } else {
@@ -596,7 +596,7 @@ module.exports = {
         } catch (error) {
           return res.json({
             status: 500,
-            error: "2" + error
+            error: "" + error
           })
           //console.log("Er xxxxxxxxxxxxxxxx",err);
         }

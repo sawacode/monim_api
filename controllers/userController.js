@@ -26,20 +26,20 @@ module.exports = {
         }).then((user) => {
             //console.log("Value xxxxxxxxxxx ",user);
             if (user) {
-                if(user.email == identify){
-                  return res.json({
-                    status: 200,
-                    success: true,
-                    data: "email"
-                });
-                }else if(user.phone == identify){
+                if (user.email == identify) {
+                    return res.json({
+                        status: 200,
+                        success: true,
+                        data: "email"
+                    });
+                } else if (user.phone == identify) {
                     return res.json({
                         status: 200,
                         success: true,
                         data: "phone"
                     });
                 }
-                
+
             } else {
                 return res.json({
                     status: 200,
@@ -122,9 +122,9 @@ module.exports = {
             }, (transaction, done) => {
                 model.users.findOne({
                     attributes: ['phone'],
-                    where: {phone: tel}
+                    where: { phone: tel }
                 }, { transaction }).then((_user) => {
-                     
+
                     done(null, transaction, _user);
                 })
                     .catch((err) => {
@@ -136,14 +136,14 @@ module.exports = {
             }, (transaction, _user, done) => {
                 if (!_user) {
                     bcrypt.hash(password, 10, (err, bcryptedPassword) => {
-                        done(null,transaction, bcryptedPassword);
+                        done(null, transaction, bcryptedPassword);
                     });
                 } else {
                     return res.json({
                         'status': 400,
                         success: false,
                         'error': 'user already exist',
-                         data: "dsd"
+                        data: "dsd"
                     });
                 }
             }, (transaction, bcryptedPassword, done) => {
@@ -162,8 +162,8 @@ module.exports = {
                         transaction: transaction
                     },
                 ).then(([_country, created]) => {
-                        done(null, transaction, bcryptedPassword, _country);
-                    })
+                    done(null, transaction, bcryptedPassword, _country);
+                })
                     .catch((err) => {
                         return res.json({
                             status: 500,
@@ -188,7 +188,7 @@ module.exports = {
                         updated_at: date.getTime()
                     }, { transaction })
                         .then((newUser) => {
-                        
+
                             done(transaction, newUser);
                         }).catch((err) => {
                             return res.json({
@@ -234,11 +234,11 @@ module.exports = {
                         return res.json({
                             status: 200,
                             success: true,
-                            data: jwtUtils.generateTokenForUser(newUser)            
+                            data: jwtUtils.generateTokenForUser(newUser)
                         });
                     })
                     .catch((commitErr) => {
-                        
+
                         return res
                             .json({ status: 500, error: "Internal Server Error " + commitErr });
                     });
@@ -253,13 +253,13 @@ module.exports = {
         if (identifier == null || password == null) {
             return res.json({ status: 404, success: false, error: 'missing parameters' })
         }
-        
+
         //waterfull
         iAsync.waterfall([
             (done) => {
                 model.users.findOne({
                     where: { [Op.or]: [{ email: identifier }, { phone: identifier }] },
-                    
+
                 }).then((user) => {
                     done(null, user)
                 })
@@ -273,16 +273,16 @@ module.exports = {
             }, (user, done) => {
                 if (user) {
                     bcrypt.compare(password, user.password, (errBycrypt, resBycript) => {
-                        
+
                         if (errBycrypt) {
-                            return res.json({ 
-                              status: 500,
-                              error: ""+err
+                            return res.json({
+                                status: 500,
+                                error: "" + err
                             });
-                        }else{
+                        } else {
                             done(null, user, resBycript)
                         }
-                        
+
                     });
                 } else {
                     return res.status(200).json({
@@ -291,39 +291,39 @@ module.exports = {
                         error: 'user not exist in DB'
                     });
                 }
-            },(user, resBycript, done)=>{
-                if(resBycript){
-                    if(user.user_enable == false){
+            }, (user, resBycript, done) => {
+                if (resBycript) {
+                    if (user.user_enable == false) {
                         return res.json({
-                        status: 411,
-                        success: false,
-                        error: 'User is disabled'
-                    });
+                            status: 411,
+                            success: false,
+                            error: 'User is disabled'
+                        });
                     }
                     model.users.findOne({
-                        where: {id: user.id},
+                        where: { id: user.id },
                         attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token",] },
                         include: [
-                        {
-                            model: model.countries,
-                        }
+                            {
+                                model: model.countries,
+                            }
                         ]
                     }).then((_user) => {
-                       done(_user, resBycript);
+                        done(_user, resBycript);
                     })
-                    .catch((error) => {
-                        return res.json({
-                            status: 500,
-                            success: false,
-                            error: '' + error,
-                        });
-                    })
-                }else{
-                  return res.status(200).json({
+                        .catch((error) => {
+                            return res.json({
+                                status: 500,
+                                success: false,
+                                error: '' + error,
+                            });
+                        })
+                } else {
+                    return res.status(200).json({
                         status: 404,
                         success: false,
                         error: 'invalid password'
-                  })  
+                    })
                 }
             }
         ], (_user, resBycript) => {
@@ -370,7 +370,7 @@ module.exports = {
                     if (user) {
                         done(null, user);
                     } else {
-                       return res.json({
+                        return res.json({
                             status: 444,
                             success: false,
                             error: 'user not found'
@@ -436,11 +436,11 @@ module.exports = {
                 { model: model.cities },
                 { model: model.municipalities },
                 { model: model.districts },
-                        
+
             ],
-            
+
         }).then((user) => {
-            
+
             if (user) {
                 return res.status(200).json({ status: 200, success: true, user: user });
             } else {
@@ -460,11 +460,11 @@ module.exports = {
     },
     //Modification du compte de l'utilisateur
     updateUserName: (req, res) => {
-        const  headerAuth = req.headers['authorization']; //token
-        const  user = jwtUtils.getUser(headerAuth); //l'untilisateur
-        const  country_name = req.body.country_name;
-        const  country_slug = req.body.country_slug;
-        const  country_phonecoode = req.body.country_phonecoode;
+        const headerAuth = req.headers['authorization']; //token
+        const user = jwtUtils.getUser(headerAuth); //l'untilisateur
+        const country_name = req.body.country_name;
+        const country_slug = req.body.country_slug;
+        const country_phonecoode = req.body.country_phonecoode;
         let number_size = req.body.number_size;
 
         //Params
@@ -475,13 +475,13 @@ module.exports = {
             (done) => {
                 model.users.findOne({
                     where: { id: user.userId, phone: user.userPhone },
-                attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token"] },
-                include: [
-                    { model: model.countries },
-                    { model: model.cities },
-                    { model: model.municipalities },
-                    { model: model.districts }
-                ]
+                    attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token"] },
+                    include: [
+                        { model: model.countries },
+                        { model: model.cities },
+                        { model: model.municipalities },
+                        { model: model.districts }
+                    ]
                 }).then((userFound) => {
                     done(null, userFound);
                 }).catch((err) => {
@@ -490,65 +490,65 @@ module.exports = {
                         error: 'unable to verify user'
                     });
                 });
-            },(userFound, done) =>{
+            }, (userFound, done) => {
                 if (userFound) {
 
                     model.countries.findOrCreate(
-                {
-                where: { countries_code: country_phonecoode!=null?country_phonecoode:userFound.country.countries_code },
-                defaults: {
-                  countries_name: country_name,
-                  countries_status: 1,
-                  countries_code: country_phonecoode,
-                  number_size: number_size,
-                  created_at: date.getTime(),
-                  updated_at: date.getTime(),
-                  slug: country_slug
-                },
-              }
-              
-            )
-            .then(([_country, created]) => {
-              done(null, userFound, _country);
-            })
-            .catch((err) => {
-              return res.json({
-                status: 500,
-                error: "Can not verify country " + err,
-              });
-            });
-                   
+                        {
+                            where: { countries_code: country_phonecoode != null ? country_phonecoode : userFound.country.countries_code },
+                            defaults: {
+                                countries_name: country_name,
+                                countries_status: 1,
+                                countries_code: country_phonecoode,
+                                number_size: number_size,
+                                created_at: date.getTime(),
+                                updated_at: date.getTime(),
+                                slug: country_slug
+                            },
+                        }
+
+                    )
+                        .then(([_country, created]) => {
+                            done(null, userFound, _country);
+                        })
+                        .catch((err) => {
+                            return res.json({
+                                status: 500,
+                                error: "Can not verify country " + err,
+                            });
+                        });
+
                 } else {
-                    return res.json({ 
+                    return res.json({
                         status: 404,
                         status: false,
                         error: "User not found"
-                     });
+                    });
                 }
             },
-            (userFound,_country, done) => {
+            (userFound, _country, done) => {
 
                 if (_country) {
-                    try{
+                    try {
                         userFound.countrie_id = _country.id;
                         userFound.firstname = firstname;
                         userFound.lastname = lastname;
                         userFound.save();
-                        done(userFound);    
-                    }catch(error){
+                        done(userFound);
+                    } catch (error) {
                         return res.json({
                             status: 500,
                             success: false,
-                            error: ""+error
+                            error: "" + error
                         })
                     }
-                   
+
                 } else {
-                    return res.json({ 
+                    return res.json({
                         status: 404,
                         status: false,
                         error: "Country not found"
-                     });
+                    });
                 }
             },
         ],
@@ -560,14 +560,14 @@ module.exports = {
                         user: userFound
                     });
                 } else {
-                    return res.json({ 
+                    return res.json({
                         status: 404,
                         error: "User not found"
-                     });
+                    });
                 }
             })
     },
-    updateEmail: (req, res)=>{
+    updateEmail: (req, res) => {
         let headerAuth = req.headers['authorization']; //token
         let user = jwtUtils.getUser(headerAuth); //L'utilisateur
 
@@ -580,131 +580,131 @@ module.exports = {
             });
         }
         iAsync.waterfall([
-            (done)=> {
+            (done) => {
                 model.users.findOne({
                     where: { id: user.userId, phone: user.userPhone },
-                attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token"] },
-                include: [
-                    { model: model.countries },
-                    { model: model.cities },
-                    { model: model.municipalities },
-                    { model: model.districts }
-                ]
-                }).then((_userFound)=> {
+                    attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token"] },
+                    include: [
+                        { model: model.countries },
+                        { model: model.cities },
+                        { model: model.municipalities },
+                        { model: model.districts }
+                    ]
+                }).then((_userFound) => {
                     done(null, _userFound);
                 }).catch((err) => {
                     return res.json({
                         status: 500,
-                        error: ''+err
+                        error: '' + err
                     });
                 })
-            },(_userFound,done)=> {
+            }, (_userFound, done) => {
                 if (_userFound) {
-                        model.users.findOne({
-                            where:{email: email}
-                        }).then((_vUser)=> {
-                            done(_userFound,_vUser);
-                        }).catch((err) => {
+                    model.users.findOne({
+                        where: { email: email }
+                    }).then((_vUser) => {
+                        done(_userFound, _vUser);
+                    }).catch((err) => {
                         return res.json({
                             status: 500,
-                            error: ''+err
+                            error: '' + err
                         });
                     })
-                      
-                }else{
-                    return res.json({ 
+
+                } else {
+                    return res.json({
                         status: 404,
                         error: "User not found"
                     });
                 }
             }
-        ],(_userFound,_vUser)=>{
-                if(_vUser){
+        ], (_userFound, _vUser) => {
+            if (_vUser) {
+                return res.json({
+                    status: 406,
+                    success: false,
+                    error: "Email address already exists"
+                });
+            } else {
+                try {
+                    _userFound.email = email;
+                    _userFound.save();
                     return res.json({
-                        status: 406,
-                        success: false,
-                        error: "Email address already exists"
+                        status: 200,
+                        success: true,
+                        user: _userFound,
+                        token: jwtUtils.generateTokenForUser(_userFound)
                     });
-                }else{
-                     try{
-                        _userFound.email = email;
-                        _userFound.save();
-                        return res.json({
-                            status: 200,
-                            success: true,
-                            user: _userFound,
-                            token: jwtUtils.generateTokenForUser(_userFound)
-                        });
-                        }catch(error){
-                            return res.json({
-                            status: 500,
-                            error: "" + error
-                        });
-                    }
+                } catch (error) {
+                    return res.json({
+                        status: 500,
+                        error: "" + error
+                    });
                 }
-            });
+            }
+        });
 
     },
-    updatePhone: (req, res)=>{
+    updatePhone: (req, res) => {
         let headerAuth = req.headers['authorization']; //token
         let user = jwtUtils.getUser(headerAuth); //L'utilisateur
 
         const phone = req.body.phone;
         const whatsapp = req.body.whatsapp;
 
-        
+
         model.users.findOne({
-                where: { id: user.userId, phone: user.userPhone },
-                attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token"] },
-                include: [
-                    { model: model.countries },
-                    { model: model.cities },
-                    { model: model.municipalities },
-                    { model: model.districts }
-                ]
-                }).then((userFound) => {
-                    if (userFound) {
-                        try{
-                           
-                            if(phone != "" && phone != null || whatsapp != "" && whatsapp != null){
-                                if(phone != "" && phone != null){
-                                    userFound.phone = phone;
-                                }
-                                if(whatsapp != "" && whatsapp != null){
-                                    userFound.whatsapp = whatsapp;
-                                }
-                                userFound.save();
-                            }else{
-                                return res.json({
-                                    status: 400,
-                                    success: false,
-                                    error: "params mixed"
-                                })
-                            }
-                            return res.json({
-                                status: 200,
-                                success: true,
-                                user: userFound,
-                                token: jwtUtils.generateTokenForUser(userFound)
-                            });
-                        }catch(error){
-                            return res.json({
-                            statut: 500,
-                            error: "" + error
-                        });
+            where: { id: user.userId, phone: user.userPhone },
+            attributes: { exclude: ["password", "email_verified", "confirm_token", "remember_token"] },
+            include: [
+                { model: model.countries },
+                { model: model.cities },
+                { model: model.municipalities },
+                { model: model.districts }
+            ]
+        }).then((userFound) => {
+            if (userFound) {
+                try {
+
+                    if (phone != "" && phone != null || whatsapp != "" && whatsapp != null) {
+                        if (phone != "" && phone != null) {
+                            userFound.phone = phone;
+                        }
+                        if (whatsapp != "" && whatsapp != null) {
+                            userFound.whatsapp = whatsapp;
+                        }
+                        userFound.save();
+                    } else {
+                        return res.json({
+                            status: 400,
+                            success: false,
+                            error: "params mixed"
+                        })
                     }
-                    }else{
-                        return res.json({ 
-                        status: 404,
-                        error: "User not found"
-                     });
-                    }
-                }).catch((err) => {
                     return res.json({
-                        status: 500,
-                        error: ''+err
+                        status: 200,
+                        success: true,
+                        user: userFound,
+                        token: jwtUtils.generateTokenForUser(userFound)
                     });
+                } catch (error) {
+                    return res.json({
+                        statut: 500,
+                        error: "" + error
+                    });
+                }
+            } else {
+                return res.json({
+                    status: 404,
+                    error: "User not found"
                 });
+            }
+        }).catch((err) => {
+            return res.json({
+                status: 500,
+                error: '' + err
+            });
+        });
 
     },
     verifyCodeForResetPassword: (req, res) => {
@@ -718,7 +718,7 @@ module.exports = {
         model.password_reset_tokens.findOne({
             where: { email: email, token: code }
         }).then((value) => {
-            
+
             if (value) {
 
                 value.token = null;
@@ -799,7 +799,7 @@ module.exports = {
         })
     },
 
-    updatePassword: (req, res)=>{
+    updatePassword: (req, res) => {
         let headerAuth = req.headers['authorization']; //token
         let user = jwtUtils.getUser(headerAuth); //L'utilisateur
 
@@ -809,27 +809,27 @@ module.exports = {
         model.users.findOne({
             where: { id: user.userId, phone: user.userPhone },
             attributes: { exclude: ["email_verified", "confirm_token", "remember_token"] },
-        }).then((_user)=>{
-            if(_user){
-                bcrypt.compare(oldPassword, _user.password,(err, resBycript)=>{
-                    if(resBycript){
+        }).then((_user) => {
+            if (_user) {
+                bcrypt.compare(oldPassword, _user.password, (err, resBycript) => {
+                    if (resBycript) {
                         bcrypt.hash(newPassword, 10, (error, bcryptedPassword) => {
-                        if(error){
-                            return res.json({ 
-                              status: 500,
-                              error: ""+err
-                            });
-                        }else{
-                            _user.password = bcryptedPassword;
-                            _user.save();
-                            return res.json({
-                                status: 200,
-                                success: true,
-                                data: "updated!"
-                            })
-                        }
+                            if (error) {
+                                return res.json({
+                                    status: 500,
+                                    error: "" + err
+                                });
+                            } else {
+                                _user.password = bcryptedPassword;
+                                _user.save();
+                                return res.json({
+                                    status: 200,
+                                    success: true,
+                                    data: "updated!"
+                                })
+                            }
                         });
-                    }else{
+                    } else {
                         return res.status(200).json({
                             status: 401,
                             success: false,
@@ -837,78 +837,83 @@ module.exports = {
                         })
                     }
                 });
-                 
-            }else{
-                return res.json({ 
-                  status: 404,
-                  error: "User not found"
+
+            } else {
+                return res.json({
+                    status: 404,
+                    error: "User not found"
                 });
             }
-        }).catch((error)=>{
+        }).catch((error) => {
             return res.json({
-               status: 500,
-               error: ''+error
+                status: 500,
+                error: '' + error
             });
         })
     },
     //Ajout et modification de l'image
-    addOrUpadeUserImage: (req,res)=>{
+    addOrUpadeUserImage: (req, res) => {
         const file = req.file;
         let headerAuth = req.headers['authorization']; //token
         let user_id = jwtUtils.getUser(headerAuth); //L'utilisateur
 
-    if(file == null || file.fieldname != "avatar" ){
-      return res.json({
-        status: 404,
-        success: false,
-        error: "File not found"
-      });
-    }
-    iAsync.waterfall([
-      (done)=>{
-        model.users.findOne({
-          where: {id: user_id}
-        }).then((_user)=>{
-           //console.log("xxxxxxxxxxxxxxxxxxx",file.mimetype);
-          done(null,_user);
-        }).catch((error)=>{
-          return res.json({
-            status: 500,
-            success: false,
-            error: ""+error
-          });
-        })
-      },(_user, done)=>{
-        //console.log("xxxxxxxxxxxxxxxxxxx",_company);
-         if(_user){
-            try{
-              _user.avatar = file.path;
-              _user.save();
-              done(_user);
-            }catch(error){
-              return res.json({
-                status: 500,
-                success: false,
-                error: ""+error
-              });
-            }
-            
-          }else{
+        if (file == null || file.fieldname != "avatar") {
             return res.json({
-              status: 404,
-              success: false,
-              error: "User not found"
+                status: 404,
+                success: false,
+                error: "File not found"
             });
-          }
-      }
-    ],(_user)=>{
-      return res.json({
-        status: 200,
-        success: true,
-        data: "Image added Successfully"
-      });
-    });
-  },
+        }
+        iAsync.waterfall([
+            (done) => {
+                model.users.findOne({
+                    where: { id: user_id }
+                }).then((_user) => {
+                    //console.log("xxxxxxxxxxxxxxxxxxx",file.mimetype);
+                    done(null, _user);
+                }).catch((error) => {
+                    return res.json({
+                        status: 500,
+                        success: false,
+                        error: "" + error
+                    });
+                })
+            }, (_user, done) => {
+                //console.log("xxxxxxxxxxxxxxxxxxx",_company);
+                if (_user) {
+                    try {
+                        _user.avatar = file.path;
+                        _user.save();
+                        done(_user);
+                    } catch (error) {
+                        return res.json({
+                            status: 500,
+                            success: false,
+                            error: "" + error
+                        });
+                    }
+
+                } else {
+                    return res.json({
+                        status: 404,
+                        success: false,
+                        error: "User not found"
+                    });
+                }
+            }
+        ], (_user) => {
+            return res.json({
+                status: 200,
+                success: true,
+                data: "Image added Successfully"
+            });
+        });
 
 
+    },
+
+    deleteAccount: (req, res) => {
+
+        
+    }
 }
